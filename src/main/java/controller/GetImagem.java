@@ -11,12 +11,12 @@ public class GetImagem {
 
     public static void getImg(String imagem) {
 
-        String busca = new String("https://api.unsplash.com/search/photos?query={0}&client_id=44552ee7fbc2b428d6a7468058bbbe5163478869855d8f9dc7f968b876466bd8");
+        String busca = new String("https://api.unsplash.com/search/photos?query="+imagem+"&client_id=44552ee7fbc2b428d6a7468058bbbe5163478869855d8f9dc7f968b876466bd8");
 
         URL url = null;
 
         try {
-            url = new URL(busca.replace("{0}", imagem));
+            url = new URL(busca);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
             con.setRequestProperty("user-agent", "Mozilla/5.0");
@@ -27,7 +27,9 @@ public class GetImagem {
             JsonNode jsonNode = Jackson.jsonNodeOf(json);
             JsonNode results = jsonNode.findValue("results");
             String imgUrl = results.get(0).findValue("urls").findValue("raw").asText();
+
             salvarImagem(imgUrl, imagem);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
